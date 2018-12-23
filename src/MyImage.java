@@ -62,7 +62,7 @@ public class MyImage {
 
         for (int i = 0; i < height; ++i)
             for (int j = 0; j < width; ++j)
-                sb = sb.append((int)values[i * height + j]+" ");
+                sb = sb.append(Math.round(values[i * height + j])+" ");
 
 
         Path path = Paths.get(fpath);

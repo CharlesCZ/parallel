@@ -8,9 +8,9 @@ public class Main {
        // img.CreateCheckerboard();
       //  img.saveAspgm("C:\\images\\img.pgm");
 
-        NaiveConvolution img= new NaiveConvolution(5,5);
-//img.CreateCheckerboard();
-img.Convolution();
+        NaiveConvolution img= new NaiveConvolution(50,50);
+img.CreateCheckerboard();
+img.test(1);
         img.saveAspgm("C:\\images\\img.pgm");
     }
 }

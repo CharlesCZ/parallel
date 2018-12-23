@@ -7,10 +7,23 @@ public class NaiveConvolution extends MyImage {
 
     }
 
+    public void test(int proby){
+
+        long starttime = System.currentTimeMillis();
+
+        for(int i=0;i<proby;++i)
+            Convolution();
+
+
+        long endtime=System.currentTimeMillis();
+        System.out.println("Czas testu: "+(endtime-starttime));
+
+
+    }
 
    public float[] Convolution()
         {
-
+            float[] image = values;
 
             for (int i = 0; i <height; i++)
             {
@@ -23,24 +36,24 @@ public class NaiveConvolution extends MyImage {
                     float center = 0;
 
                     if (i - 1 >= 0 && i - 1 <height && j >= 0 && j <width)
-                        up = values[(i - 1)*height+j] * 0.1f;
+                        up = image[(i - 1)*height+j] * 0.1f;
 
                     if (i + 1 >= 0 && i + 1 < height && j >= 0 && j < width)
-                        down = values[(i + 1)*height+j] * 0.1f;
+                        down = image[(i + 1)*height+j] * 0.1f;
 
                     if (i >= 0 && i < height && j - 1 >= 0 && j - 1 <width)
-                        left = values[i*height+j-1] * 0.1f;
+                        left = image[i*height+j-1] * 0.1f;
 
                     if (i >= 0 && i < height && j + 1 >= 0 && j + 1 < width)
-                        right = values[i*height+j+1] * 0.1f;
+                        right = image[i*height+j+1] * 0.1f;
 
                     if (i >= 0 && i < height && j >= 0 && j < width)
-                        center = values[i*height+j] * 0.6f;
+                        center = image[i*height+j] * 0.6f;
 
-                    values[i*height+j] = up + down + left + right + center;
+                    image[i*height+j] = up + down + left + right + center;
                 }
             }
-
-            return values;
+values=image;
+            return image;
         }
 }
