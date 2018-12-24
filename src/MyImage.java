@@ -76,7 +76,7 @@ public class MyImage {
         }
     }
 
-    public void CreateCheckerboard() {
+   /* public void CreateCheckerboard() {
         for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++) {
                 int index = i * width + j;
@@ -92,9 +92,24 @@ public class MyImage {
                   else
                       values[index]=255;
                 }
-            }
+            }*/
 
+
+    public void CreateCheckerboard(int l) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                int index = i * width + j;
+                int liczba_pikseli_na_pole_w = width / l;
+                int liczba_pikseli_na_pole_h = height / l;
+                if (((i / liczba_pikseli_na_pole_h) + (j / liczba_pikseli_na_pole_w)) % 2 == 0)
+                    values[index] = 0;
+                else
+                    values[index] = 255;
+            }
+        }
     }
+
+
 
 
 
