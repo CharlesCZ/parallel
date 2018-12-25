@@ -6,9 +6,9 @@ import java.nio.file.Paths;
 
 public class MyImage {
 
-   protected float[] values;
-   protected int width;
-   protected int height;
+   public float[] values;
+   public int width;
+   public int height;
 
     public float[] getValues() {
         return values;
@@ -34,6 +34,12 @@ public class MyImage {
         this.height = height;
     }
 
+
+    public MyImage(float[] values, int width, int height) {
+        this.values = values;
+        this.width = width;
+        this.height = height;
+    }
 
     public MyImage(int width, int height) {
         this.width = width;
