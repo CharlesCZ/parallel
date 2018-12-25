@@ -4,11 +4,11 @@ import java.util.concurrent.*;
 
 public class AsyncConvolution extends MyImage {
 
-private float[] newImage;
+private float[] oldImage;
     public AsyncConvolution(int width, int height) {
 
         super(width, height);
-        newImage=values;
+        oldImage=values;
     }
 
 
@@ -17,15 +17,16 @@ private float[] newImage;
 
 
         List<PartOfImage> callables;
-        for(int j=0;j<200;++j)
+        for(int j=0;j<1;++j)
         for(int i=0;i<threads;++i){
             callables=new LinkedList<>();
-            callables.add(new PartOfImage(values,width,(height/threads)*i, (height/threads)*(i+1),newImage));
-//jak dostaniesz zmieniony float, moze lepiej niech przesyla image
+            callables.add(new PartOfImage(values,width,(height/threads)*i, (height/threads)*(i+1),
+                    oldImage,((i+1)%threads)==0,(i%threads)==0));
+
         List<Future<Object>> answers =   executor.invokeAll(callables);
 
 
-            setValues(newImage);
+         oldImage=getValues();
         }
 
 

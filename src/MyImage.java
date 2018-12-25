@@ -66,10 +66,11 @@ public class MyImage {
         sb = sb.append("\n");
         sb = sb.append("255\n");
 
-        for (int i = 0; i < height; ++i)
+        for (int i = 0; i < height; ++i) {
+            sb = sb.append("\n");
             for (int j = 0; j < width; ++j)
-                sb = sb.append(Math.round(values[i * height + j])+" ");
-
+                sb = sb.append(Math.round(values[i * height + j]) + " ");
+        }
 
         Path path = Paths.get(fpath);
 
@@ -82,23 +83,7 @@ public class MyImage {
         }
     }
 
-   /* public void CreateCheckerboard() {
-        for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++) {
-                int index = i * width + j;
 
-                if(i%2!=0)  {
-                if(j%2==0)
-                values[index]=0;
-                 else
-                 values[index]=255;}
-                 else {
-                  if(j%2!=0)
-                      values[index]=0;
-                  else
-                      values[index]=255;
-                }
-            }*/
 
 
     public void CreateCheckerboard(int l) {
