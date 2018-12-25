@@ -15,9 +15,9 @@ private float[] oldImage;
     public float[] Convolution(int threads) throws InterruptedException {
         ExecutorService executor = Executors.newFixedThreadPool(threads);
 
-
+        long starttime = System.currentTimeMillis();
         List<PartOfImage> callables;
-        for(int j=0;j<1;++j)
+        for(int j=0;j<200;++j)
         for(int i=0;i<threads;++i){
             callables=new LinkedList<>();
             callables.add(new PartOfImage(values,width,(height/threads)*i, (height/threads)*(i+1),
@@ -29,7 +29,8 @@ private float[] oldImage;
          oldImage=getValues();
         }
 
-
+        long endtime=System.currentTimeMillis();
+        System.out.println("Czas testu: "+(endtime-starttime));
 ConcurrentUtils.stop(executor);
 
         return values;
@@ -39,8 +40,8 @@ ConcurrentUtils.stop(executor);
 
         long starttime = System.currentTimeMillis();
 
-     //   for(int i=0;i<proby;++i)
-         //   Convolution();
+     /*   for(int i=0;i<proby;++i)
+          Convolution();*/
 
 
         long endtime=System.currentTimeMillis();
