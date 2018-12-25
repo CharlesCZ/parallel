@@ -19,7 +19,7 @@ img.test(200);
 
     AsyncConvolution asImg=new AsyncConvolution(500,500);
             asImg.CreateCheckerboard(10);
-            asImg.Convolution(20);
+            asImg.Convolution(10);
         asImg.saveAspgm("C:\\images\\Asimg.pgm");
     }
 }

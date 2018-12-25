@@ -13,7 +13,7 @@ private float[] oldImage;
 
 
     public float[] Convolution(int threads) throws InterruptedException {
-        ExecutorService executor = Executors.newFixedThreadPool(threads);
+        ExecutorService executor = Executors.newWorkStealingPool(threads);
 
         long starttime = System.currentTimeMillis();
         List<PartOfImage> callables;
