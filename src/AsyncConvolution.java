@@ -4,16 +4,16 @@ import java.util.concurrent.*;
 
 public class AsyncConvolution extends MyImage {
 
-private float[] oldImage;
+    private float[] oldImage;
     public AsyncConvolution(int width, int height) {
 
         super(width, height);
-        oldImage=values;
+
     }
 
 
     public float[] Convolution(int threads) throws InterruptedException {
-      //  ExecutorService executor = Executors.newWorkStealingPool(threads);
+        //  ExecutorService executor = Executors.newWorkStealingPool(threads);
 
         long starttime = System.currentTimeMillis();
 
@@ -23,11 +23,11 @@ private float[] oldImage;
             for (int i = 0; i < threads; ++i) {
 
                 threadlist.add(new Thread(new PartOfImage(values, width, (height / threads) * i, (height / threads) * (i + 1),
-                        oldImage, ((i + 1) % threads) == 0, (i % threads) == 0)));
+                         ((i + 1) % threads) == 0, (i % threads) == 0)));
 
-                oldImage = getValues();
+
             }
-            System.out.println(threadlist.size());
+
             for (int k = 0; k < threadlist.size(); ++k)
                 threadlist.get(k).start();
 

@@ -1,19 +1,18 @@
 import java.util.concurrent.Callable;
-
 public class PartOfImage extends MyImage implements Runnable {
 
-   private float[]  oldImage;
-boolean last;
-boolean first;
-    public PartOfImage(float[] values, int width,int heightFrom, int height,float[] oldImage,boolean last,boolean first) {
+    private int heightFrom;
+     private  boolean last;
+    private boolean first;
+    public PartOfImage(float[] values, int width,int heightFrom, int height,boolean last,boolean first) {
         super(values, width, height);
         this.heightFrom=heightFrom;
-        this.oldImage=oldImage;
-     this.last=last;
-     this.first=first;
+     
+        this.last=last;
+        this.first=first;
     }
 
-    private int heightFrom;
+
 
 
     @Override
@@ -31,7 +30,7 @@ boolean first;
 
                 if(last==true ) {
                     if (i - 1 >= heightFrom-1 && i - 1 < height && j >= 0 && j < width)
-                        up = oldImage[(i - 1) * width + j] * 0.1f;
+                        up = values[(i - 1) * width + j] * 0.1f;
 
                     if (i + 1 >= heightFrom && i + 1 < height && j >= 0 && j < width)
                         down = values[(i + 1) * width + j] * 0.1f;
@@ -43,14 +42,14 @@ boolean first;
                         right = values[i * width + j + 1] * 0.1f;
 
                     if (i >= heightFrom && i < height && j >= 0 && j < width)
-                        center = oldImage[i * width + j] * 0.6f;
+                        center = values[i * width + j] * 0.6f;
                 }else if(last==false &&first==false){
 
                     if (i - 1 >= heightFrom-1 && i - 1 < height && j >= 0 && j < width)
-                        up = oldImage[(i - 1) * width + j] * 0.1f;
+                        up = values[(i - 1) * width + j] * 0.1f;
 
                     if (i + 1 >= heightFrom && i + 1 < height+1 && j >= 0 && j < width)
-                        down = oldImage[(i + 1) * width + j] * 0.1f;
+                        down = values[(i + 1) * width + j] * 0.1f;
 
                     if (i >= heightFrom && i < height && j - 1 >= 0 && j - 1 < width)
                         left = values[i * width + j - 1] * 0.1f;
@@ -66,7 +65,7 @@ boolean first;
                         up = values[(i - 1) * width + j] * 0.1f;
 
                     if (i + 1 >= heightFrom && i + 1 < height+1 && j >= 0 && j < width)
-                        down = oldImage[(i + 1) * width + j] * 0.1f;
+                        down = values[(i + 1) * width + j] * 0.1f;
 
                     if (i >= heightFrom && i < height && j - 1 >= 0 && j - 1 < width)
                         left = values[i * width + j - 1] * 0.1f;
@@ -75,7 +74,7 @@ boolean first;
                         right = values[i * width + j + 1] * 0.1f;
 
                     if (i >= heightFrom && i < height && j >= 0 && j < width)
-                        center = oldImage[i * width + j] * 0.6f;
+                        center = values[i * width + j] * 0.6f;
                 }
 
                 values[i*width+j] = up + down + left + right + center;
