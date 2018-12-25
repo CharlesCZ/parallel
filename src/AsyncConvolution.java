@@ -28,19 +28,46 @@ void init(){
                values[i*height+j]= properImage[i][j];
 
     }
+
+    float[][] partOfArray(int from, int to,int threads){
+    float[][] arr=new float[(height/threads)+2][];
+
+for(int i=0;i<to-from;++i)
+    if(from+i<=to)
+    arr[i]=properImage[from+i];
+
+        return arr;
+    }
     public float[] Convolution(int threads) throws InterruptedException {
         ExecutorService executor = Executors.newWorkStealingPool(threads);
 
 
-        long starttime = System.currentTimeMillis();
-        List<PartOfImage> callables;
-        for(int j=0;j<200;++j) {
-            callables=new LinkedList<>();
-            for (int i = 0; i < threads; ++i) {
 
-                callables.add(new PartOfImage(properImage, width, (height / threads) * i, (height / threads) * (i + 1),
+
+        List<PartOfImage> callables=new LinkedList<>();
+
+        for (int i = 0; i < threads; ++i) {
+
+            if(i==0)
+            callables.add(new PartOfImage(partOfArray(0,(height / threads) * (i + 1)+1,threads), width, 0, (height / threads) * (i + 1) ,
+                    ((i + 1) % threads) == 0, (i % threads) == 0,i));//zmien wysokosci i czesc obrazka
+
+
+
+
+          else  if(i==threads-1)
+                callables.add(new PartOfImage(partOfArray((height / threads) * i-1 ,(height / threads) * (i + 1),threads), width, 1, (height / threads) * (i + 1) ,
                         ((i + 1) % threads) == 0, (i % threads) == 0,i));//zmien wysokosci i czesc obrazka
-            }
+
+            else
+                callables.add(new PartOfImage(partOfArray((height / threads) * i-1 ,(height / threads) * (i + 1)+1,threads), width, 1, (height / threads) * (i + 1) ,
+                        ((i + 1) % threads) == 0, (i % threads) == 0,i));//zmien wysokosci i czesc obrazka
+        }
+
+        long starttime = System.currentTimeMillis();
+        for(int j=0;j<200;++j) {
+
+
             List<Future<Object>> answers =  executor.invokeAll(callables);
         }
 
