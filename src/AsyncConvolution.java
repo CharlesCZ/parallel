@@ -13,25 +13,30 @@ private float[] oldImage;
 
 
     public float[] Convolution(int threads) throws InterruptedException {
-        ExecutorService executor = Executors.newWorkStealingPool(threads);
+      //  ExecutorService executor = Executors.newWorkStealingPool(threads);
 
         long starttime = System.currentTimeMillis();
-        List<PartOfImage> callables;
-        for(int j=0;j<200;++j)
-        for(int i=0;i<threads;++i){
-            callables=new LinkedList<>();
-            callables.add(new PartOfImage(values,width,(height/threads)*i, (height/threads)*(i+1),
-                    oldImage,((i+1)%threads)==0,(i%threads)==0));
 
-        List<Future<Object>> answers =   executor.invokeAll(callables);
+        List<Thread> threadlist;
+        for(int j=0;j<200;++j) {
+            threadlist=new LinkedList<>();
+            for (int i = 0; i < threads; ++i) {
 
+                threadlist.add(new Thread(new PartOfImage(values, width, (height / threads) * i, (height / threads) * (i + 1),
+                        oldImage, ((i + 1) % threads) == 0, (i % threads) == 0)));
 
-         oldImage=getValues();
+                oldImage = getValues();
+            }
+            System.out.println(threadlist.size());
+            for (int k = 0; k < threadlist.size(); ++k)
+                threadlist.get(k).start();
+
+            for (int k = 0; k < threadlist.size(); ++k)
+                threadlist.get(k).join();
         }
-
         long endtime=System.currentTimeMillis();
         System.out.println("Czas testu: "+(endtime-starttime));
-ConcurrentUtils.stop(executor);
+//ConcurrentUtils.stop(executor);
 
         return values;
     }

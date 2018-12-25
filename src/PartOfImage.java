@@ -1,6 +1,6 @@
 import java.util.concurrent.Callable;
 
-public class PartOfImage extends MyImage implements Callable<Object> {
+public class PartOfImage extends MyImage implements Runnable {
 
    private float[]  oldImage;
 boolean last;
@@ -14,8 +14,10 @@ boolean first;
     }
 
     private int heightFrom;
+
+
     @Override
-    public Object call() throws Exception {
+    public void run() {
 
         for (int i = heightFrom; i <height; i++)
         {
@@ -79,8 +81,5 @@ boolean first;
                 values[i*width+j] = up + down + left + right + center;
             }
         }
-        
-        
-        return null;
     }
 }
