@@ -13,30 +13,27 @@ public class AsyncConvolution extends MyImage {
 
 
     public float[] Convolution(int threads) throws InterruptedException {
-        //  ExecutorService executor = Executors.newWorkStealingPool(threads);
+        ExecutorService executor = Executors.newWorkStealingPool(threads);
 
         long starttime = System.currentTimeMillis();
-
-        List<Thread> threadlist;
+        List<PartOfImage> callables;
         for(int j=0;j<200;++j) {
-            threadlist=new LinkedList<>();
+            callables=new LinkedList<>();
             for (int i = 0; i < threads; ++i) {
 
-                threadlist.add(new Thread(new PartOfImage(values, width, (height / threads) * i, (height / threads) * (i + 1),
-                         ((i + 1) % threads) == 0, (i % threads) == 0)));
+                callables.add(new PartOfImage(values, width, (height / threads) * i, (height / threads) * (i + 1),
+                        ((i + 1) % threads) == 0, (i % threads) == 0));
+
+
+
 
 
             }
-
-            for (int k = 0; k < threadlist.size(); ++k)
-                threadlist.get(k).start();
-
-            for (int k = 0; k < threadlist.size(); ++k)
-                threadlist.get(k).join();
+            List<Future<Object>> answers = executor.invokeAll(callables);
         }
         long endtime=System.currentTimeMillis();
         System.out.println("Czas testu: "+(endtime-starttime));
-//ConcurrentUtils.stop(executor);
+        ConcurrentUtils.stop(executor);
 
         return values;
     }
