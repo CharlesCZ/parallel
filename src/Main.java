@@ -15,7 +15,7 @@ img.CreateCheckerboard(10);
 img.test(200);
         img.saveAspgm("C:\\images\\img.pgm");
 
-
+//Thread.sleep(10000);
 
     AsyncConvolution asImg=new AsyncConvolution(2048,2048);
             asImg.CreateCheckerboard(10);
