@@ -4,35 +4,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class MyImage {
+public abstract class MyImage {
 
-   public float[] values;
-   public int width;
-   public int height;
-
-    public float[] getValues() {
-        return values;
-    }
-
-    public void setValues(float[] values) {
-        this.values = values;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
+    protected float[] values;
+    final protected int width;
+    final protected int height;
 
 
     public MyImage(float[] values, int width, int height) {
@@ -40,6 +16,8 @@ public class MyImage {
         this.width = width;
         this.height = height;
     }
+
+
 
     public MyImage(int width, int height) {
         this.width = width;
@@ -50,11 +28,10 @@ public class MyImage {
                 values[i * height + j] = 100;
 
 
-
     }
 
 
-    public void saveAspgm(String fpath){
+    public void saveAspgm(String fpath) {
 
 
         StringBuilder sb = new StringBuilder();
@@ -75,15 +52,12 @@ public class MyImage {
         Path path = Paths.get(fpath);
 
 //Use try-with-resource to get auto-closeable writer instance
-        try (BufferedWriter writer = Files.newBufferedWriter(path))
-        {
+        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
             writer.write(sb.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
 
 
     public void CreateCheckerboard(int l) {
@@ -99,9 +73,6 @@ public class MyImage {
             }
         }
     }
-
-
-
 
 
 }

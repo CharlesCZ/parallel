@@ -1,10 +1,11 @@
-import java.util.LinkedList;
+import java.util.ArrayList;
+
 import java.util.List;
 import java.util.concurrent.*;
 
 public class AsyncConvolution extends MyImage {
 
-    private float[] oldImage;
+
     public AsyncConvolution(int width, int height) {
 
         super(width, height);
@@ -12,39 +13,27 @@ public class AsyncConvolution extends MyImage {
     }
 
 
-    public float[] Convolution(int threads) throws InterruptedException {
+    public long testAsync(int threads) throws InterruptedException {
+
+        long starttime = System.currentTimeMillis();
         ExecutorService executor = Executors.newWorkStealingPool(threads);
 
-        List<PartOfImage> callables=new LinkedList<>();
+        List<PartOfImage> callables = new ArrayList<>();
         for (int i = 0; i < threads; ++i)
             callables.add(new PartOfImage(values, width, (height / threads) * i, (height / threads) * (i + 1),
                     ((i + 1) % threads) == 0, (i % threads) == 0));
 
-        //  List<Future<Object>> answers;
 
-        long starttime = System.currentTimeMillis();
-        for(int j=0;j<200;++j)
-            executor.invokeAll(callables);
+        for (int j = 0; j < 200; ++j) {
+            List<Future<Object>> answers = executor.invokeAll(callables);
+        }
 
-
-        long endtime=System.currentTimeMillis();
-        System.out.println("Czas testu wspolbiezny: "+(endtime-starttime));
+        long endtime = System.currentTimeMillis();
+        System.out.println("Czas testu wspolbiezny: " + (endtime - starttime));
         ConcurrentUtils.stop(executor);
 
-        return values;
+        return (endtime - starttime);
     }
 
-    public void test(int proby){
 
-        long starttime = System.currentTimeMillis();
-
-     /*   for(int i=0;i<proby;++i)
-          Convolution();*/
-
-
-        long endtime=System.currentTimeMillis();
-        System.out.println("Czas testu: "+(endtime-starttime));
-
-
-    }
 }
