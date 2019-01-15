@@ -5,19 +5,37 @@ public class PartOfImage extends  MyImage implements Callable<Object> {
     private final int heightFrom;
     private final boolean last;
     private final boolean first;
+    private float[] newImage;
 
-    public PartOfImage(float[] values, int width, int heightFrom, int height, boolean last, boolean first) {
+    public PartOfImage(float[] values, int width, int heightFrom, int height, boolean last, boolean first,float[] newImage) {
         super(values, width, height);
         this.heightFrom = heightFrom;
         this.last = last;
         this.first = first;
+        this.newImage=newImage;
     }
 
+
+
+public void swapImages(){
+        float[] temp=values;
+        values=newImage;
+        newImage=temp;
+
+}
+
+
+    private  void countBorders(){
+
+
+
+
+    }
 
     @Override
     public Object call() throws Exception {
 
-        for (int i = heightFrom; i < height; i++) { //jedna pętla?
+        for (int i = heightFrom; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 float up = 0;
                 float down = 0;
@@ -73,7 +91,7 @@ public class PartOfImage extends  MyImage implements Callable<Object> {
                         center = values[i * width + j] * 0.6f;
                 }
 
-                values[i * width + j] = up + down + left + right + center;
+                newImage[i * width + j] = up + down + left + right + center;
             }
         }
         return null;
