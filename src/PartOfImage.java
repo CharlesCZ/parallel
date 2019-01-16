@@ -30,70 +30,112 @@ public void swapImages(){
 
 
 
+
+
+
+
+           if( first == true) {
+//lewy gorny
+               newImage[heightFrom * width ] = values[heightFrom * width ] * 0.6f + (values[heightFrom * width +  1] + values[(heightFrom + 1) * width ]) * 0.1f;
+//prawy gorny
+               newImage[heightFrom * width + width-1] = values[heightFrom * width  + width-1] * 0.6f +(values[heightFrom * width +  + width-2]  + values[(heightFrom + 1) * width   + width-1]) * 0.1f;
+
+
+               for (int j = 1; j < width - 1; ++j) //bez gory
+                   newImage[heightFrom * width + j] = values[heightFrom * width + j] * 0.6f + (values[heightFrom * width + j + 1]  + values[heightFrom * width + j - 1] + values[(heightFrom + 1) * width + j] )* 0.1f;
+
+
+
+
+           }
+            else {
+               //lewy wzglednie gorny
+               newImage[heightFrom * width] = values[heightFrom * width] * 0.6f +( values[heightFrom * width + 1] + values[(heightFrom + 1) * width] * 0.1f + values[(heightFrom - 1) * width] )* 0.1f;
+//prawy wzglednie gorny
+               newImage[heightFrom * width + width - 1] = values[heightFrom * width + width - 1] * 0.6f +( values[heightFrom * width + +width - 2]+ values[(heightFrom + 1) * width + +width - 1]  + values[(heightFrom - 1) * width + width - 1] )* 0.1f;
+               for (int j = 1; j < width - 1; ++j)
+                   newImage[heightFrom * width + j] =
+                           values[heightFrom * width + j] * 0.6f + (values[heightFrom * width + j + 1]  +
+                                   values[heightFrom * width + j - 1]  + values[(heightFrom + 1) * width + j]  + values[(heightFrom - 1) * width + j] )* 0.1f;
+
+
+           }
+
+ if(last==true){
+     //lewy dolny
+     newImage[(height-1)* width ] = values[(height-1) * width ] * 0.6f +( values[(height-1) * width +  1] + values[(height-2) * width ]) * 0.1f;
+//prawy dolny
+     newImage[(height-1)* width + width-1] = values[(height-1)* width  + width-1] * 0.6f +( values[(height-1)* width +  + width-2] + values[(height-2) * width   + width-1] * 0.1f);
+
+            for (int j = 1; j < width-1; ++j)
+                newImage[(height-1) * width + j] =
+                        values[(height-1) * width + j] * 0.6f+( values[(height-2) * width + j] +values[(height-1) * width + j - 1] +values[(height-1) * width + j + 1] )* 0.1f;
+
+            }else{
+     //lewy  wzglednie dolny
+     newImage[(height-1)* width ] = values[(height-1) * width ] * 0.6f +( values[(height-1) * width +  1] + values[(height-2) * width ] + values[(height+1) * width ])*0.1f;
+//prawy wzglednie dolny
+     newImage[(height-1)* width + width-1] = values[(height-1)* width  + width-1] * 0.6f + (values[(height-1)* width +  + width-2] + values[(height-2) * width   + width-1] + values[(height) * width ])*0.1f;
+            for (int j = 1; j < width-1; ++j)
+                newImage[(height-1) * width + j] =
+                        values[(height-1) * width + j] * 0.6f+(values[(height-1) * width + j + 1] +
+                                values[(height-1) * width + j - 1] +values[(height) * width + j] +values[(height-2) * width + j] )* 0.1f;
+
+
+            }
+
+
+
+
+
+//boki
+               for (int i =heightFrom+1; i<height-1; ++i)
+
+                   newImage[i * width] =
+                           values[i * width] * 0.6f+(values[i * width + 1] +values[(i + 1) * width] + values[(i - 1) * width]) * 0.1f;
+
+
+               for (int i =heightFrom+1; i<height-1; ++i)
+                   newImage[i * width +  width-1] =
+                           values[i * width +  width-1] * 0.6f+(values[i * width +  width-2] + values[(i + 1) * width +  width-1] + values[(i - 1) * width +  width-1]) * 0.1f;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     @Override
     public Object call() throws Exception {
 
-        for (int i = heightFrom; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                float up = 0;
-                float down = 0;
-                float left = 0;
-                float right = 0;
-                float center = 0;
+        for (int i = heightFrom+1; i < height-1; ++i) {
+            for (int j = 0; j < width; ++j) {
+               // for (int j = 1; j < width-1; ++j) {
 
-                if (last == true) {
-                    if (i - 1 >= heightFrom - 1 && i - 1 < height && j >= 0 && j < width)
-                        up = values[(i - 1) * width + j] * 0.1f;
 
-                    if (i + 1 >= heightFrom && i + 1 < height && j >= 0 && j < width)
-                        down = values[(i + 1) * width + j] * 0.1f;
 
-                    if (i >= heightFrom && i < height && j - 1 >= 0 && j - 1 < width)
-                        left = values[i * width + j - 1] * 0.1f;
+              //  newImage[i * width + j] = gora + dol + lewo + prawo + srodek;
 
-                    if (i >= heightFrom && i < height && j + 1 >= 0 && j + 1 < width)
-                        right = values[i * width + j + 1] * 0.1f;
+                newImage[i * width + j] =  ( values[(i - 1) * width + j]+ values[(i + 1) * width + j]+ values[i * width + j - 1]+values[i * width + j + 1] ) * 0.1f+values[i * width + j] * 0.6f;
 
-                    if (i >= heightFrom && i < height && j >= 0 && j < width)
-                        center = values[i * width + j] * 0.6f;
-                } else if (last == false && first == false) {
-
-                    if (i - 1 >= heightFrom - 1 && i - 1 < height && j >= 0 && j < width)
-                        up = values[(i - 1) * width + j] * 0.1f;
-
-                    if (i + 1 >= heightFrom && i + 1 < height + 1 && j >= 0 && j < width)
-                        down = values[(i + 1) * width + j] * 0.1f;
-
-                    if (i >= heightFrom && i < height && j - 1 >= 0 && j - 1 < width)
-                        left = values[i * width + j - 1] * 0.1f;
-
-                    if (i >= heightFrom && i < height && j + 1 >= 0 && j + 1 < width)
-                        right = values[i * width + j + 1] * 0.1f;
-
-                    if (i >= heightFrom && i < height && j >= 0 && j < width)
-                        center = values[i * width + j] * 0.6f;
-                } else if (last == false && first == true) {
-                    if (i - 1 >= heightFrom && i - 1 < height && j >= 0 && j < width)
-                        up = values[(i - 1) * width + j] * 0.1f;
-
-                    if (i + 1 >= heightFrom && i + 1 < height + 1 && j >= 0 && j < width)
-                        down = values[(i + 1) * width + j] * 0.1f;
-
-                    if (i >= heightFrom && i < height && j - 1 >= 0 && j - 1 < width)
-                        left = values[i * width + j - 1] * 0.1f;
-
-                    if (i >= heightFrom && i < height && j + 1 >= 0 && j + 1 < width)
-                        right = values[i * width + j + 1] * 0.1f;
-
-                    if (i >= heightFrom && i < height && j >= 0 && j < width)
-                        center = values[i * width + j] * 0.6f;
-                }
-
-                newImage[i * width + j] = up + down + left + right + center;
             }
         }
+
+
+        countBorders();
         return null;
     }
 }
+
+
+
